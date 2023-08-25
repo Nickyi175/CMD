@@ -13,16 +13,23 @@ import java.util.Scanner;
  */
 public class probar {
     static Scanner lea= new Scanner(System.in);
+    static String direccion,mensaje;
     public static void main(String[] args) {
         CMD obj= new CMD();
-        lea.delimiter();
+//        lea.delimiter();
         try{
-//            obj.Escribir();
+            direccion=lea.nextLine();
+            obj.Mkdir(direccion);
+            mensaje=lea.nextLine();
+            obj.Escribir(mensaje, "si",mensaje);
         }catch(InputMismatchException e){
             System.out.println("no valido");
         }catch(NullPointerException e){
-            System.out.println("seleccioen");
+            System.out.println("seleccione");
+        }finally{
+            lea.close();
         }
+                
         
     }
 }

@@ -19,50 +19,37 @@ public class CMD {
     File files;
     String direccion="";
     
-    public CMD() {
-        this.files = new File(direccion);
-    }
     
-    public String Escribir(String direccion,String texto) throws IOException {
+    
+    public String Escribir(String direccion,String texto,String comando){
         File files=new File(direccion);
         String text;
+        comando=comando.toLowerCase();
+        if(comando.contains("wr")){
+            String direction;
+           String palabraABorrar = "wr";
+         direction = comando.replace(palabraABorrar, "");
         if (files.exists()) {
             if (files.isFile()) {
                 try {
 
-                    FileWriter fr = new FileWriter(files);
-                    fr.write(texto);
-                    fr.flush();
+                    FileWriter escriba = new FileWriter(files);
+                    escriba.write(texto);
+                    escriba.flush();
+                    text = "¡Completado!";
                 } catch (IOException e) {
-                 text="Error: no se pudo crear";
-                }
-                text = "Escritura completada";
-                return text;
+                 text="No se creo";
+                }   
             } else {
-                text = "Error: debe seleccionar un archivo";
+                text = "Archivo no seleccionado";
                 return text;
             }
         } else {
-            text = "Error: Archivo inexistente";
+            text = "No existe el archivo";
+        }
         return text;
         }
-
-//        if (files.exists()) {
-//            System.out.println("No existe");
-//            return;
-//        }
-////        FileWriter writer = new FileWriter(mifile, true);
-//        String line;
-//        while (true) {
-//            line = leer.nextLine();
-//            if (line.isEmpty()) {
-//                break;
-//            }
-//            writer.write(line);
-//            writer.write(System.lineSeparator());
-//        }
-//        writer.close();
-//
+        return null;
     }
     public String Leer(String direccion,String comando) {
         comando=comando.toLowerCase();
