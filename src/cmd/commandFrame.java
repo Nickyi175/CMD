@@ -39,6 +39,12 @@ private Calendar fecha;
                             
                         } else if (comando.equals("cd")) {
                             // Lógica para cambiar de directorio
+                        }else if(comando.equals("rm")){
+                            
+                            
+                        }else if(comando.equals("Mfile")){
+                           
+                            
                         }
                     }
                 }

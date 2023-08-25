@@ -160,6 +160,78 @@ public class CMD {
         }
         System.out.println("NO SALE"+files.getAbsolutePath());
     }
+    boolean Rm(String comando) {
+
+        comando = comando.toLowerCase();
+        String resultado;
+        if (comando.contains("rm")) {
+            String palabraABorrar = "rm";
+            resultado = comando.replace(palabraABorrar, "");
+            files = new File(resultado);
+            if (files.exists()) {
+                    eliminarcarp(files);
+                    rmborrar(files);
+                System.out.println(""+files);
+                System.out.println(""+resultado);
+            } else {
+
+                System.out.println("no existe!");
+            }
+
+            return true;
+        }
+        return false;
+    }
+    boolean Mfile(String comando) throws IOException {
+        comando = comando.toLowerCase();
+        String resultado;
+        if (comando.contains("mfile") && comando.contains(".txt")) {
+
+            String palabraABorrar = "mfile";
+            resultado = comando.replace(palabraABorrar, "");
+            files = new File(resultado);
+            System.out.println("se creo");
+            System.out.println(resultado);
+            return files.createNewFile();
+
+        } else {
+
+            System.out.println("Funcion no valida");
+
+        }
+
+        return false;
+
+    }
+
+    void eliminarcarp(File vaciar) {
+        if (vaciar.isDirectory()) {
+            for (File vacio : vaciar.listFiles()) {
+                vacio.delete();
+            }
+        }
+
+    }
+
+    String rmborrar(File borrar) {
+        if (borrar.isDirectory()) {
+            for (File eliminar : borrar.listFiles()) {
+                if (eliminar.isDirectory()) {
+                    eliminarcarp(eliminar);
+                    eliminar.delete();
+                } else {
+                    eliminar.delete();
+                }
+            }
+            borrar.delete();
+            return "Carpeta Eliminada";
+        }else if(borrar.isFile()){
+            borrar.delete();
+            return "Archivo eliminado";
+        }
+
+        return "Error";
+    }
     private void fecha() {
         Date dt = new Date();
         System.out.println("FECHA ACTUAL:\t" + dt);
