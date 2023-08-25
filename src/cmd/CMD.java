@@ -20,37 +20,57 @@ public class CMD {
     String direccion="";
     
     
-    
-    public String Escribir(String direccion,String texto,String comando){
-        File files=new File(direccion);
-        String text;
-        comando=comando.toLowerCase();
-        if(comando.contains("wr")){
-            String direction;
-           String palabraABorrar = "wr";
-         direction = comando.replace(palabraABorrar, "");
-        if (files.exists()) {
-            if (files.isFile()) {
-                try {
+ public String Escribir(String carpeta, String nombreArchivo, String comando) {
+        File archivo = new File(carpeta, nombreArchivo);
 
-                    FileWriter escriba = new FileWriter(files);
-                    escriba.write(texto);
-                    escriba.flush();
-                    text = "¡Completado!";
-                } catch (IOException e) {
-                 text="No se creo";
-                }   
-            } else {
-                text = "Archivo no seleccionado";
-                return text;
-            }
-        } else {
-            text = "No existe el archivo";
+        if (!archivo.getParentFile().exists()) {
+            archivo.getParentFile().mkdirs();
         }
-        return text;
+
+        try {
+            FileWriter escribir = new FileWriter(archivo);
+            escribir.write(comando);
+            escribir.flush();
+            escribir.close();
+            return "¡Completado! El texto ha sido escrito en el archivo.";
+        } catch (IOException e) {
+            return "No se pudo escribir en el archivo.";
         }
-        return null;
     }
+ 
+//    public String Escribir(String direccion,String texto,String comando){
+//        String text="NO APTO";
+//            if(comando != null && !comando.isEmpty()){//direccion es mkdir
+//                String ruta=System.getProperty("user.dir")+File.separator+comando;
+//                File nf=new File(ruta);
+//                comando=comando.toLowerCase();
+//            if(comando.contains("wr")){
+//                String direction;
+//                String palabraABorrar = "wr";
+//                direction = comando.replace(palabraABorrar, "");
+//            if (files.exists()) {
+//                if (files.isFile()) {
+//                    try {
+//                        FileWriter escriba = new FileWriter(files);
+//                        escriba.write(texto);
+//                        escriba.flush();
+//                        text = "¡Completado!";
+//                    } catch (IOException e) {
+//                     text="No se creo";
+//                    }   
+//                } else {
+//                    text = "Archivo no seleccionado";
+//                    return text;
+//                }
+//            } else {
+//                text = "No existe el archivo";
+//            }
+//            return text;
+//            }
+//            return text;
+//            }
+//            return "HI";
+//    }
     public String Leer(String direccion,String comando) {
         comando=comando.toLowerCase();
         if(comando.contains("rd")){
@@ -98,7 +118,6 @@ public class CMD {
     }
 
     boolean Mkdir(String comando) {
-        
         if(comando != null && !comando.isEmpty()){
             String ruta=System.getProperty("user.dir")+File.separator+comando;
             File nf=new File(ruta);
@@ -182,25 +201,26 @@ public class CMD {
         }
         return false;
     }
-    boolean Mfile(String comando) throws IOException {
-        comando = comando.toLowerCase();
+    boolean Mfile(String nameArch) throws IOException {
+       // comando = comando.toLowerCase();
         String resultado;
-        if (comando.contains("mfile") && comando.contains(".txt")) {
+         files = new File(nameArch);
+        return files.createNewFile();
+//        if (comando.contains("mfile") && comando.contains(".txt")) {
+//
+//            String palabraABorrar = "mfile";
+//            resultado = comando.replace(palabraABorrar, "");
+//            files = new File(resultado);
+//            System.out.println("se creo");
+//            System.out.println(resultado);
+//            return files.createNewFile();
+//
+//        } else {
+//
+//            System.out.println("Funcion no vasasasaasada");
+//
+//        }
 
-            String palabraABorrar = "mfile";
-            resultado = comando.replace(palabraABorrar, "");
-            files = new File(resultado);
-            System.out.println("se creo");
-            System.out.println(resultado);
-            return files.createNewFile();
-
-        } else {
-
-            System.out.println("Funcion no valida");
-
-        }
-
-        return false;
 
     }
 

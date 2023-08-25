@@ -33,7 +33,7 @@ private Calendar fecha;
 
                         if (comando.equals("mkdir")) { 
                             cmd.Mkdir(argumento);
-                        } else if (comando.equals("leer")) {
+                        } else if (comando.equals("rd")) {
                             // Lógica para leer
                         } else if (comando.equals("time")) {
                             

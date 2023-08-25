@@ -4,6 +4,7 @@
  */
 package cmd;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,14 +15,16 @@ import java.util.Scanner;
 public class probar {
     static Scanner lea= new Scanner(System.in);
     static String direccion,mensaje;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         CMD obj= new CMD();
 //        lea.delimiter();
         try{
-//            direccion=lea.nextLine();
-            obj.Mkdir("user.txt");
-            mensaje=lea.nextLine();
-            obj.Escribir(mensaje, "si",mensaje);
+//            direccion=lea.nextLine()
+String dir="ok1";
+String arch="us.txt";
+            obj.Mkdir(dir);
+            obj.Mfile(arch);
+            obj.Escribir(dir, arch,"mimamamemima");
         }catch(InputMismatchException e){
             System.out.println("no valido");
         }catch(NullPointerException e){
