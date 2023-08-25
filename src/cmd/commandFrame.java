@@ -3,15 +3,45 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package cmd;
-
+import java.awt.event.*;
 
 public class commandFrame extends javax.swing.JFrame {
 
-
     public commandFrame() {
         initComponents();
-    }
 
+        salida_comando.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String text = obtenerUltimaLinea();
+                    //accion de ejemplo despues se le pone unas funciones ahi HACERLAS FUERA Y SOLO LLAMAR
+                    System.out.println("Última línea ingresada:"+text);//SALIDA EN CONSOLA
+                    String[] txtPartes=text.split("/");//DIVIDE LA ULTIMA LINEA EN PARTES
+                    for(String p: txtPartes){
+                        System.out.println(p);//SALIDA CONSOLA
+                         salida_comando.append("\n" + p);//SALIDA EN JFRAME DE PRUEBA
+                        //salida_comando.setText(txtEnFrame+"\n"+p); TIRA  VACIO
+                    } 
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+    }
+    private String obtenerUltimaLinea() {
+        String txtEnFrame=salida_comando.getText();
+        String[] salto=txtEnFrame.split("\n");
+        if (salto.length>0) {
+            return salto[salto.length-1];
+        } else {
+            return "";
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
