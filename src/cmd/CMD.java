@@ -132,22 +132,31 @@ public class CMD {
         return false;
     }
     
+    void cambio(String nombreCarpeta) {
+        File nuevoD = new File(files, nombreCarpeta);
+        if (nuevoD.isDirectory()) {
+            files = nuevoD;
+            System.out.println("CAMBIO: " + files.getAbsolutePath());
+        } else {
+            System.out.println("CARPETA NO ENCONTRADA.");
+        }
+    }
    
     private void regreso(String folderName) {
         String parentPath=files.getParent();
         if (parentPath != null) {
             files = new File(parentPath);
-            System.out.println("Regresando a la carpeta anterior: " + files.getAbsolutePath());
+            System.out.println("REGRESANDO: " + files.getAbsolutePath());
         } else {
             System.out.println("ESTAS EN LA RAIZ");
         }
-         File volver = new File(files, folderName);
-        if (volver.isDirectory()) {
-            files=volver;
-            System.out.println("Vuelta: "+files.getAbsolutePath());
-        } else {
-            System.out.println("NO PUEDO VOLVER :l");
-        }
+//         File volver = new File(files, folderName);
+//        if (volver.isDirectory()) {
+//            files=volver;
+//            System.out.println("Vuelta: "+files.getAbsolutePath());
+//        } else {
+//            System.out.println("NO PUEDO VOLVER :l");
+//        }
     }
 
     private void listar() {
@@ -163,12 +172,12 @@ public class CMD {
                 System.out.println("."+c.getName());
             }
         }else{
-            System.out.println("Comando no apto");
+            System.out.println("COMANDO NO APTO");
         }
         System.out.println("NO SALE"+files.getAbsolutePath());
     }
     private void fecha() {
         Date dt = new Date();
-        System.out.println("Fecha actual:\t" + dt);
+        System.out.println("FECHA ACTUAL:\t" + dt);
     }
 }

@@ -33,9 +33,9 @@ private Calendar fecha;
                         if (p.equalsIgnoreCase("mkdir")) {
                             cmd.Mkdir(text);
                         } else if (p.equalsIgnoreCase("leer")) {
-                            cmd.Leer(cmd.files);
+//                            cmd.Leer(cmd.files);
                         } else if (p.equalsIgnoreCase("time")) {
-                            cmd.Time();
+               //             cmd.Time();
                         } else if (p.equalsIgnoreCase("cd")) {
                             // Lógica para cambiar de directorio
                         }
