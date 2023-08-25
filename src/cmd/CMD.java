@@ -17,7 +17,7 @@ public class CMD {
 
     Scanner leer = new Scanner(System.in);
     File files;
-    String direccion;
+    String direccion="";
     
     public CMD() {
         this.files = new File(direccion);
