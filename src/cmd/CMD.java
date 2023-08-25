@@ -111,26 +111,23 @@ public class CMD {
     }
 
     boolean Mkdir(String comando) {
-
-        comando = comando.toLowerCase();
-        String resultado;
-        if (comando.contains("mkdir")) {
-
-            String palabraABorrar = "mkdir";
-            resultado = comando.replace(palabraABorrar, "");
-            System.out.println("se creo");
-            System.out.println(resultado);
-            direccion=resultado;
-            return files.mkdir();
-
-        } else {
-
+        
+        if(comando != null && !comando.isEmpty()){
+            String ruta=System.getProperty("user.dir")+File.separator+comando;
+            File nf=new File(ruta);
+            if(nf.mkdir()){
+                System.out.println("SE CREO CARPETA");
+                return true;
+            }else{
+                System.out.println("NO SE PUDO CREAR");
+            }
+        }else{
             System.out.println("Funcion no valida");
-
-        }
+        }  
 
         return false;
     }
+    
     
     void cambio(String nombreCarpeta) {
         File nuevoD = new File(files, nombreCarpeta);

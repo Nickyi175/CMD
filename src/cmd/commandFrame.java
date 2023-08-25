@@ -28,10 +28,10 @@ private Calendar fecha;
                     System.out.println("Linea ultima:" + text);
                     String[] txtPartes = text.split(" ");
                     if (txtPartes.length >= 2) {
-                        String comando = txtPartes[0].toLowerCase();
+                        String comando = txtPartes[0].toLowerCase(); // Convertir a minúsculas
                         String argumento = txtPartes[1];
-                        
-                        if (comando.equals("mkdir")) {
+
+                        if (comando.equals("mkdir")) { // Comparación en minúsculas
                             cmd.Mkdir(argumento);
                         } else if (comando.equals("leer")) {
                             // Lógica para leer
