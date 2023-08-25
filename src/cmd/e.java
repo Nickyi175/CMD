@@ -22,7 +22,7 @@ Escribir<wr >: Debe ingresar un texto al archivo seleccionado.
 Leer<rd >: Debe seleccionar un archivo para mostrar lo que contiene.
 
     */
-    private void regreso(){
+    private void regreso(String folderName){
 //        String parentPath = mifile.getParent();
 //        if (parentPath != null) {
 //            mifile = new File(parentPath);
@@ -30,7 +30,14 @@ Leer<rd >: Debe seleccionar un archivo para mostrar lo que contiene.
 //        } else {
 //            System.out.println("Ya estás en la raíz del sistema.");
 //        }
-        
+//op 2
+//         File volver = new File(dirActual, folderName);
+//        if (volver.isDirectory()) {
+//            dirActual=volver;
+//            System.out.println("Back to: "+dirActual.getAbsolutePath());
+//        } else {
+//            System.out.println("NO PUEDO VOLVER :l");
+//        }
     
     }
     private void listar(){
