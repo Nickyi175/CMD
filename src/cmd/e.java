@@ -3,26 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package cmd;
+
 import java.util.*;
 import java.io.*;
 
 public class e {
-    /*
-Consola de comandos: consola de comandos que imite el funcionamiento de CMD de Windows, mostrando la carpeta actual y teniendo las funciones siguientes:
 
-Mkdir <nombre>: Nueva carpeta
-Mfile <nombre.ext>:Nuevo archivo
-Rm <nombre>: Eliminar carpeta y archivo.
-Cd <nombre carpeta>: Cambiar de carpeta actual
-<...>  Regresar de Carpeta
-Dir: Listar todas las carpetas y archivos en la carpeta actual
-Date: Ver fecha actual
-Time: Ver hora actual
-Escribir<wr >: Debe ingresar un texto al archivo seleccionado.
-Leer<rd >: Debe seleccionar un archivo para mostrar lo que contiene.
-
-    */
-    private void regreso(String folderName){
+    private void regreso(String folderName) {
 //        String parentPath = mifile.getParent();
 //        if (parentPath != null) {
 //            mifile = new File(parentPath);
@@ -38,9 +25,10 @@ Leer<rd >: Debe seleccionar un archivo para mostrar lo que contiene.
 //        } else {
 //            System.out.println("NO PUEDO VOLVER :l");
 //        }
-    
+
     }
-    private void listar(){
+
+    private void listar() {
         /*
         if(mifile.isDirectory()){
             for (File c: mifile.listFiles()) {
@@ -57,11 +45,12 @@ Leer<rd >: Debe seleccionar un archivo para mostrar lo que contiene.
             System.out.println("Comando no apto");
         }
     
-        */
+         */
         System.out.println("NO SALE");//+f.getAbsolutePath()+"\nBytes: "+mifile.length());
     }
-    private void fecha(){
-        Date dt=new Date();
-        System.out.println("Fecha actual:\t"+dt);
+
+    private void fecha() {
+        Date dt = new Date();
+        System.out.println("Fecha actual:\t" + dt);
     }
 }
