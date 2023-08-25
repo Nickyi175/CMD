@@ -14,59 +14,81 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CMD {
-   Scanner leer = new Scanner(System.in).useDelimiter("\n"); 
-   File mifile;
-   String direccion;
+
+    Scanner leer = new Scanner(System.in);
+    File files;
+    String direccion;
 
     public CMD() {
-        this.mifile = new File(direccion);
+        this.files = new File(direccion);
     }
-void Escribir(File mifile) throws IOException{
+
+    void Escribir(File mifile) throws IOException {
 //    if(.equalsIgnoreCase("Escribir<wr>")){
-    if (!mifile.isDirectory()) {
+        if (!mifile.isDirectory()) {
             System.out.println("No existe");
             return;
         }
-    FileWriter writer = new FileWriter(mifile, true);
+        FileWriter writer = new FileWriter(mifile, true);
         String line;
-    while (true) {
-        line = leer.nextLine();
-        if (line.isEmpty()) {
-            break;
+        while (true) {
+            line = leer.nextLine();
+            if (line.isEmpty()) {
+                break;
+            }
+            writer.write(line);
+            writer.write(System.lineSeparator());
         }
-        writer.write(line);
-        writer.write(System.lineSeparator());
-    }
         writer.close();
 //}
-}
-
-
- void Leer(File mifile){
-    try {
-//        if(.equalsIgnoreCase("Leer<rd>")){
-        if (!mifile.exists()) {
-            System.out.println("Archivo no encontrado");
-            return;
-        }
-        BufferedReader reader = new BufferedReader(new FileReader(mifile));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
-        reader.close();
-//    }
-    } catch (IOException ex) {
-        Logger.getLogger(CMD.class.getName()).log(Level.SEVERE, null, ex);
     }
- }
- 
- static void Time(){
+
+    void Leer(File mifile) {
+        try {
+//        if(.equalsIgnoreCase("Leer<rd>")){
+            if (!mifile.exists()) {
+                System.out.println("Archivo no encontrado");
+                return;
+            }
+            BufferedReader reader = new BufferedReader(new FileReader(mifile));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
+//    }
+        } catch (IOException ex) {
+            Logger.getLogger(CMD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    static void Time() {
 //     if(.equalsIgnoreCase("Time")){
-     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-     System.out.println("Current time: " + timeFormat.format(new Date()));
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        System.out.println("Current time: " + timeFormat.format(new Date()));
 // }              
- }
-//    
-    
+    }
+
+    boolean Mkdir(String comando) {
+
+        comando = comando.toLowerCase();
+        String resultado;
+        if (comando.contains("mkdir")) {
+
+            String palabraABorrar = "mkdir";
+            resultado = comando.replace(palabraABorrar, "");
+            System.out.println("se creo");
+            System.out.println(resultado);
+            direccion=resultado;
+            return files.mkdir();
+
+        } else {
+
+            System.out.println("Funcion no valida");
+
+        }
+
+        return false;
+    }
+
 }
