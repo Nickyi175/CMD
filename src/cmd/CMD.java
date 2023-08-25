@@ -23,49 +23,91 @@ public class CMD {
         this.files = new File(direccion);
     }
     
-    void Escribir(File mifile) throws IOException {
-//    if(.equalsIgnoreCase("Escribir<wr>")){
-        if (!mifile.isDirectory()) {
-            System.out.println("No existe");
-            return;
-        }
-        FileWriter writer = new FileWriter(mifile, true);
-        String line;
-        while (true) {
-            line = leer.nextLine();
-            if (line.isEmpty()) {
-                break;
+    public String Escribir(String direccion,String texto) throws IOException {
+        File files=new File(direccion);
+        String text;
+        if (files.exists()) {
+            if (files.isFile()) {
+                try {
+
+                    FileWriter fr = new FileWriter(files);
+                    fr.write(texto);
+                    fr.flush();
+                } catch (IOException e) {
+                 text="Error: no se pudo crear";
+                }
+                text = "Escritura completada";
+                return text;
+            } else {
+                text = "Error: debe seleccionar un archivo";
+                return text;
             }
-            writer.write(line);
-            writer.write(System.lineSeparator());
+        } else {
+            text = "Error: Archivo inexistente";
+        return text;
         }
-        writer.close();
-//}
+
+//        if (files.exists()) {
+//            System.out.println("No existe");
+//            return;
+//        }
+////        FileWriter writer = new FileWriter(mifile, true);
+//        String line;
+//        while (true) {
+//            line = leer.nextLine();
+//            if (line.isEmpty()) {
+//                break;
+//            }
+//            writer.write(line);
+//            writer.write(System.lineSeparator());
+//        }
+//        writer.close();
+//
     }
-    void Leer(File mifile) {
-        try {
-//        if(.equalsIgnoreCase("Leer<rd>")){
-            if (!mifile.exists()) {
-                System.out.println("Archivo no encontrado");
-                return;
+    public String Leer(String direccion,String comando) {
+        comando=comando.toLowerCase();
+        if(comando.contains("rd")){
+         String direction;
+         String palabraABorrar = "rd";
+         direction = comando.replace(palabraABorrar, "");
+        File files =new File(direction);
+        String texto = "";
+        if (files.exists()) {
+            if (files.isFile()) {
+                try {
+                    FileReader lea = new FileReader(files);
+                    String contenido = "";
+                    for (int i = lea.read(); i != -1; i = lea.read()) {
+                        contenido += (char) i;
+                    }
+                    return contenido;
+                    
+                } catch (IOException e) {
+                    texto="Error";
+                }
+                texto = "¡Completado!";
+                return texto;
+            } else {
+                texto = "Ningún archivo fue seleccionado";
+                return texto;
             }
-            BufferedReader reader = new BufferedReader(new FileReader(mifile));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-            reader.close();
-//    }
-        } catch (IOException ex) {
-            Logger.getLogger(CMD.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            texto = "No existe el archivo";
+            return texto;
         }
+    }
+        return null;
     }
 
-    static void Time() {
-//     if(.equalsIgnoreCase("Time")){
+    static void Time(String comando) {
+        comando = comando.toLowerCase();
+        
+        if(comando.contains("Time")){
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         System.out.println("Current time: " + timeFormat.format(new Date()));
-// }              
+        } else{
+          System.out.println("Funcion no valida");  
+        }             
     }
 
     boolean Mkdir(String comando) {
