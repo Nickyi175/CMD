@@ -28,15 +28,15 @@ private Calendar fecha;
                     System.out.println("Linea ultima:" + text);
                     String[] txtPartes = text.split(" ");
                     if (txtPartes.length >= 2) {
-                        String comando = txtPartes[0].toLowerCase(); // Convertir a minúsculas
+                        String comando = txtPartes[0].toLowerCase();
                         String argumento = txtPartes[1];
 
-                        if (comando.equals("mkdir")) { // Comparación en minúsculas
+                        if (comando.equals("mkdir")) { 
                             cmd.Mkdir(argumento);
                         } else if (comando.equals("leer")) {
                             // Lógica para leer
                         } else if (comando.equals("time")) {
-                            // Lógica para time
+                            
                         } else if (comando.equals("cd")) {
                             // Lógica para cambiar de directorio
                         }
