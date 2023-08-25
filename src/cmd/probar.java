@@ -17,7 +17,7 @@ public class probar {
         CMD obj= new CMD();
         lea.delimiter();
         try{
-            obj.Escribir(mifile);
+//            obj.Escribir();
         }catch(InputMismatchException e){
             System.out.println("no valido");
         }catch(NullPointerException e){
