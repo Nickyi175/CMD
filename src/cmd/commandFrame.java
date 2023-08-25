@@ -4,27 +4,42 @@
  */
 package cmd;
 import java.awt.event.*;
+import java.io.File;
+import java.util.*;
 
 public class commandFrame extends javax.swing.JFrame {
-
+private Calendar fecha;
     public commandFrame() {
+        
         initComponents();
-
+        fecha=Calendar.getInstance();
+        salida_comando.setText(""+fecha.getTime()+"\n");
         salida_comando.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
             }
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String text = obtenerUltimaLinea();
-                    //accion de ejemplo despues se le pone unas funciones ahi HACERLAS FUERA Y SOLO LLAMAR
-                    System.out.println("Última línea ingresada:"+text);//SALIDA EN CONSOLA
-                    String[] txtPartes=text.split("/");//DIVIDE LA ULTIMA LINEA EN PARTES
+                if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+                    String text=obtenerUltimaLinea();
+                    System.out.println("Linea ultima:"+text);//SALIDA EN CONSOLA
+                    String[] txtPartes=text.split(">");//DIVIDE LA ULTIMA LINEA EN PARTES
+                    String[] acc=text.split(" ");
                     for(String p: txtPartes){
                         System.out.println(p);//SALIDA CONSOLA
-                         salida_comando.append("\n" + p);//SALIDA EN JFRAME DE PRUEBA
-                        //salida_comando.setText(txtEnFrame+"\n"+p); TIRA  VACIO
+                        salida_comando.append("\n" + p);
+                       
+                        CMD cmd = new CMD();
+                        if (p.equalsIgnoreCase("mkdir")) {
+                            cmd.Mkdir(text);
+                        } else if (p.equalsIgnoreCase("leer")) {
+                            cmd.Leer(cmd.files);
+                        } else if (p.equalsIgnoreCase("time")) {
+                            cmd.Time();
+                        } else if (p.equalsIgnoreCase("cd")) {
+                            // Lógica para cambiar de directorio
+                        }
+                        //salida_comando.setText(txtEnFrame+"\n"+p);//TIRA  VACIO
                     } 
                 }
             }
@@ -32,7 +47,7 @@ public class commandFrame extends javax.swing.JFrame {
             public void keyReleased(KeyEvent e) {
             }
         });
-    }
+    } 
     private String obtenerUltimaLinea() {
         String txtEnFrame=salida_comando.getText();
         String[] salto=txtEnFrame.split("\n");
@@ -42,6 +57,10 @@ public class commandFrame extends javax.swing.JFrame {
             return "";
         }
     }
+//    private String arch(){
+//        String comando;
+//            return call.Mkdir(comando);
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

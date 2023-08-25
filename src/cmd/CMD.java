@@ -131,6 +131,25 @@ public class CMD {
 
         return false;
     }
+    void CambiarDirectorio(String nombreCarpeta) {
+        File nuevoDirectorio = new File(files, nombreCarpeta);
+        if (nuevoDirectorio.isDirectory()) {
+            files = nuevoDirectorio;
+            System.out.println("Cambiado a: " + files.getAbsolutePath());
+        } else {
+            System.out.println("Carpeta no encontrada.");
+        }
+    }
+    
+    void RegresarDirectorio() {
+        String parentPath = files.getParent();
+        if (parentPath != null) {
+            files = new File(parentPath);
+            System.out.println("Regresando a: " + files.getAbsolutePath());
+        } else {
+            System.out.println("Ya estás en la raíz.");
+        }
+    }
    
     private void regreso(String folderName) {
         String parentPath=files.getParent();
