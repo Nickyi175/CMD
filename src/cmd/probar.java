@@ -18,8 +18,8 @@ public class probar {
         CMD obj= new CMD();
 //        lea.delimiter();
         try{
-            direccion=lea.nextLine();
-            obj.Mkdir(direccion);
+//            direccion=lea.nextLine();
+            obj.Mkdir("user.txt");
             mensaje=lea.nextLine();
             obj.Escribir(mensaje, "si",mensaje);
         }catch(InputMismatchException e){
