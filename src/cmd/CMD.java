@@ -18,11 +18,11 @@ public class CMD {
     Scanner leer = new Scanner(System.in);
     File files;
     String direccion;
-
+    
     public CMD() {
         this.files = new File(direccion);
     }
-
+    
     void Escribir(File mifile) throws IOException {
 //    if(.equalsIgnoreCase("Escribir<wr>")){
         if (!mifile.isDirectory()) {
@@ -42,7 +42,6 @@ public class CMD {
         writer.close();
 //}
     }
-
     void Leer(File mifile) {
         try {
 //        if(.equalsIgnoreCase("Leer<rd>")){
@@ -90,5 +89,43 @@ public class CMD {
 
         return false;
     }
+   
+    private void regreso(String folderName) {
+        String parentPath=files.getParent();
+        if (parentPath != null) {
+            files = new File(parentPath);
+            System.out.println("Regresando a la carpeta anterior: " + files.getAbsolutePath());
+        } else {
+            System.out.println("ESTAS EN LA RAIZ");
+        }
+         File volver = new File(files, folderName);
+        if (volver.isDirectory()) {
+            files=volver;
+            System.out.println("Vuelta: "+files.getAbsolutePath());
+        } else {
+            System.out.println("NO PUEDO VOLVER :l");
+        }
+    }
 
+    private void listar() {
+        if(files.isDirectory()){
+            for (File c: files.listFiles()) {
+                System.out.print(new Date(c.lastModified()));
+                if(c.isDirectory()){
+                    System.out.print("\t<DIR>\t");
+                }
+                if(c.isFile()){
+                    System.out.print("\t     \t\n"+c.length());
+                }
+                System.out.println("."+c.getName());
+            }
+        }else{
+            System.out.println("Comando no apto");
+        }
+        System.out.println("NO SALE"+files.getAbsolutePath());
+    }
+    private void fecha() {
+        Date dt = new Date();
+        System.out.println("Fecha actual:\t" + dt);
+    }
 }
