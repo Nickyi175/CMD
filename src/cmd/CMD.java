@@ -14,17 +14,51 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CMD {
-
     Scanner leer = new Scanner(System.in);
-    File files;
-    String direccion="";
-    private File dirAct;
-
+     File dirAct;
     public CMD() {
         dirAct=new File(System.getProperty("user.dir"));
     }
     
-    public String Escribir(String nombreArchivo, String txt) {
+    String cambio(String nameCarpeta) {//LSITO
+        File nuevoCarp = new File(dirAct, nameCarpeta);
+        if (nuevoCarp.isDirectory()) {
+            dirAct=nuevoCarp;
+            return "CAMBIO: "+dirAct.getAbsolutePath();
+        } else {
+            return "CARPETA NO ENCONTRADA.";
+        }
+    }
+   
+    public String regreso() {//regresa a todo nimodo LISTO
+        String pP=dirAct.getParent();
+        if (pP != null) {
+            dirAct = new File(pP);
+            return "REGRESANDO: "+dirAct.getAbsolutePath();
+        } else {
+            return "ESTAS EN LA RAIZ";
+        }
+    }
+
+    public String Mfile(String filePath) {
+        String mensaje = "";
+        File archivo = new File(filePath);
+        if (!archivo.exists()) {
+             mensaje = "ARCH CREADO";
+            try {
+                archivo.createNewFile();
+            } catch (IOException e) {
+                mensaje = "ERROR SELECCIONE CARPETA";
+            }
+            return mensaje;
+            
+        } else {
+            mensaje = "YA EXISTE";
+            return mensaje;
+        }
+    }
+
+    public String Escribir(String nombreArchivo, String txt) {//LISTO
         File enArchivo=new File(dirAct, nombreArchivo);
         FileWriter escribir=null;
         try {
@@ -44,10 +78,9 @@ public class CMD {
         }    
     }
     public String Leer(String nameArchivo) {
-        File archivo = new File(dirAct, nameArchivo);
-        BufferedReader lee = null;
-        StringBuilder contenido = new StringBuilder();
-
+        File archivo=new File(dirAct, nameArchivo);
+        BufferedReader lee=null;
+        StringBuilder contenido=new StringBuilder();
         try {
             lee= new BufferedReader(new FileReader(archivo));
             String linea;
@@ -73,9 +106,9 @@ public class CMD {
         return "HORA ACTUAL: "+tF.format(new Date());
     }
 
-    boolean Mkdir(String comando) {
-        if(comando != null && !comando.isEmpty()){
-            String ruta=System.getProperty("user.dir")+File.separator+comando;
+    boolean Mkdir(String argss) {//LISTO
+        if(argss != null && !argss.isEmpty()){
+            String ruta=System.getProperty("user.dir")+File.separator+argss;
             File nf=new File(ruta);
             if(nf.mkdir()){
                 return true;
@@ -83,144 +116,56 @@ public class CMD {
         }  
         return false;
     }
-    
-    String cambio(String nameCarpeta) {
-        File nuevoCarp = new File(dirAct, nameCarpeta);
-        if (nuevoCarp.isDirectory()) {
-            dirAct=nuevoCarp;
-            return "CAMBIO: "+dirAct.getAbsolutePath();
-        } else {
-            return "CARPETA NO ENCONTRADA.";
-        }
-    }
-   
-    private String regreso(String folderName) {
-        String parentPath=dirAct.getParent();
-        if (parentPath != null) {
-            dirAct=new File(parentPath);
-            return "REGRESANDO: " + dirAct.getAbsolutePath();
-        } else {
-            return "ESTAS EN LA RAIZ";
-        }
-//         File volver = new File(files, folderName);
-//        if (volver.isDirectory()) {
-//            files=volver;
-//            System.out.println("Vuelta: "+files.getAbsolutePath());
-//        } else {
-//            System.out.println("NO PUEDO VOLVER :l");
-//        }
-    }
 
-    private void listar() {
+    public String listar() {
+        String result = "";
         File[] lista = dirAct.listFiles();
         if (lista != null) {
-            for (File a: lista) {//a es archivo
-                String tipo;
-                String bytes="";
-                String nombre;
-                if(a.isDirectory()){
-                    tipo="<DIR>";
-                }else{
-                    tipo="     ";
+            for (File a : lista) {
+                String tipo = "";
+                if (a.isDirectory()) {
+                    tipo = "<DIR>";
+                } else if (a.isFile()) {
+                    tipo = "     ";
                 }
-                if(a.isFile()){
-                    bytes=String.valueOf(a.length());
+                double bytes = 0;
+                if (a.isFile()) {
+                    bytes = a.length();
                 }
-                nombre=a.getName();
-                String fechaMod=new Date(a.lastModified()).toString();
-
-                System.out.print(fechaMod+"\t"+tipo+"  "+bytes+"  "+nombre);
+                String nombre = a.getName();
+                String fechaMod = new Date(a.lastModified()).toString();
+                result+= fechaMod+"\t"+tipo+"\t"+bytes+"\t"+nombre+"\n";
             }
         } else {
-            System.out.println("NO SE LISTA");
+            result = "NO SE LISTA\n";
         }
-      
-//        if(files.isDirectory()){
-//            for (File c: files.listFiles()) {
-//                System.out.print(new Date(c.lastModified()));
-//                if(c.isDirectory()){
-//                    System.out.print("\t<DIR>\t");
-//                }
-//                if(c.isFile()){
-//                    System.out.print("\t     \t\n"+c.length());
-//                }
-//                System.out.println("."+c.getName());
-//            }
-//        }else{
-//            System.out.println("COMANDO NO APTO");
-//        }
-        System.out.println("NO SALE");
+        return result;
     }
+
     String Rm(String eliminar) {
-        File archDel=new File(dirAct,eliminar);
-        if(archDel.exists()){
-            if(archDel.isDirectory()){
-                eliminar(archDel);
+        File archDel = new File(dirAct, eliminar);
+        if (archDel.exists()) {
+            if (archDel.isDirectory()) {
+                eliminarCarpeta(archDel); //llama eliminarCarpeta
                 return "CARPETA ELIMINADA";
-            }else{
+            } else {
                 archDel.delete();
                 return "ARCHIVO ELIMINADO";
             }
         }
-        return "ERROR";
+        return "ARCHIVO O CARPETA NO EXISTE";
     }
-    private void eliminar(File carp){
-        
-    }
-    boolean Mfile(String nameArch) throws IOException {
-       // comando = comando.toLowerCase();
-        File namArch=new File(dirAct,nameArch);
-        try{
-            return namArch.createNewFile();
-        }catch(IOException e){
-            return false;
-        }
-//         files = new File(nameArch);
-//        return files.createNewFile();
-//        if (comando.contains("mfile") && comando.contains(".txt")) {
-//
-//            String palabraABorrar = "mfile";
-//            resultado = comando.replace(palabraABorrar, "");
-//            files = new File(resultado);
-//            System.out.println("se creo");
-//            System.out.println(resultado);
-//            return files.createNewFile();
-//
-//        } else {
-//
-//            System.out.println("Funcion no vasasasaasada");
-//
-//        }
-
-
-    }
-
-    void eliminarcarp(File vaciar) {
-        if (vaciar.isDirectory()) {
-            for (File vacio : vaciar.listFiles()) {
-                vacio.delete();
-            }
-        }
-
-    }
-
-    String rmborrar(File borrar) {//preuba2
-        if (borrar.isDirectory()) {
-            for (File eliminar : borrar.listFiles()) {
-                if (eliminar.isDirectory()) {
-                    rmborrar(eliminar);
-                } else {
-                    eliminar.delete();
+    private void eliminarCarpeta(File carpeta) {//depende de rm
+        File[] archivos = carpeta.listFiles();
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                if (archivo.isDirectory()) {
+                    eliminarCarpeta(archivo);
                 }
+                archivo.delete();
             }
-            borrar.delete(); 
-            return "Carpeta Eliminada";
-        } else if (borrar.isFile()) {
-            borrar.delete();
-            return "Archivo eliminado";
         }
-
-        return "Error";
+        carpeta.delete();
     }
 
     public String fecha() {

@@ -1,41 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cmd;
-
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
-/**
- *
- * @author tomea
- */
 public class probar {
-    static Scanner lea= new Scanner(System.in);
-    static String direccion,mensaje;
+    static Scanner lea = new Scanner(System.in);
+
     public static void main(String[] args) throws IOException {
-        CMD obj= new CMD();
-//        lea.delimiter();
-        try{
-//            direccion=lea.nextLine()
-String dir="ok1";
-String arch="us1.txt";
+        CMD obj = new CMD();
+
+        try {
+            String dir = "yes";
+            String arch = "UFO.txt";
             obj.Mkdir(dir);
-            obj.Mfile(arch);
-            obj.Escribir( arch,"mimamamemimaS");
-            String contenido = obj.Leer(arch);
+            String filePath = dir+File.separator+arch;
+            obj.Mfile(filePath);
+            obj.Escribir(filePath, "CHEESE");
+
+            String contenido = obj.Leer(filePath);
             System.out.println("Contenido del archivo:");
             System.out.println(contenido);
-        }catch(InputMismatchException e){
-            System.out.println("no valido");
-        }catch(NullPointerException e){
-            System.out.println("seleccione");
-        }finally{
+
+            System.out.println(obj.Time());
+            System.out.println(obj.fecha());
+            System.out.println(obj.listar());
+
+            System.out.println(obj.cambio("ok"));
+            System.out.println(obj.listar());
+            System.out.println(obj.regreso());
+
+            String eliminar = "ok";
+            String resultadoEliminar = obj.Rm(eliminar);
+            System.out.println(resultadoEliminar);
+
+            System.out.println("Despues de eliminar:");
+            System.out.println(obj.listar());
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada no válida");
+        } catch (NullPointerException e) {
+            System.out.println("Seleccion nula");
+        } finally {
             lea.close();
         }
-                
-        
     }
 }

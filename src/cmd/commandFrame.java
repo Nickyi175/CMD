@@ -1,72 +1,78 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package cmd;
+
 import java.awt.event.*;
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 public class commandFrame extends javax.swing.JFrame {
-private Calendar fecha;
- private CMD cmd;
+    private Calendar fecha;
+    private CMD cmd;
+    String file;
+    String arch;
     public commandFrame() {
-        
         initComponents();
         fecha=Calendar.getInstance();
-        salida_comando.setText(""+fecha.getTime()+"\n");
+        salida_comando.setText("" + fecha.getTime()+"\n");
         cmd = new CMD();
-        
+
         salida_comando.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
             }
+
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String text = obtenerUltimaLinea();
-                    System.out.println("Linea ultima:" + text);
                     String[] txtPartes = text.split(" ");
-                    if (txtPartes.length >= 2) {
+                    if (txtPartes.length >= 1) {
                         String comando = txtPartes[0];
-                        String argumento = txtPartes[1];
+                        String argumento = (txtPartes.length > 1) ? txtPartes[1] : "";
 
-                        if (comando.equalsIgnoreCase("mkdir")) { 
-                            if(cmd.Mkdir(argumento)){
-                                salida_comando.append(text+"\nCARPETA CREADA");
-                            }else{
-                                salida_comando.append(text+"\nCARPETA EXISTENTE");
+                        if (comando.equalsIgnoreCase("mkdir")) {
+                            if (cmd.Mkdir(argumento)) {
+                                file=argumento;
+                                salida_comando.append("\nCARPETA CREADA");
+                            } else {
+                                salida_comando.append("\nCARPETA EXISTENTE");
                             }
-                        } else if (comando.equalsIgnoreCase("mfile")) {
+                        }else if (comando.equalsIgnoreCase("mfile")) {
                             
+                            String filePath = file+File.separator+argumento;
+                            String nameArch= cmd.Mfile(filePath);
+                            arch=nameArch;
+                            salida_comando.append("\n"+nameArch);
                         } else if (comando.equalsIgnoreCase("rm")) {
-                            
+                            salida_comando.append("\n"+cmd.Rm(argumento));
                         } else if (comando.equalsIgnoreCase("cd")) {
-
-                        }else if(comando.equalsIgnoreCase("...")){
-                            
-                        }else if(comando.equalsIgnoreCase("dir")){
-                            
-                        }else if(comando.equalsIgnoreCase("date")){
-                            
-                        }else if(comando.equalsIgnoreCase("time")){
-                            
-                        }else if(comando.equalsIgnoreCase("wr")){
-                            
-                        }else if(comando.equalsIgnoreCase("rd")){
-                            
-                        }else{
-                                salida_comando.append(text+"\nCOMANDO NO APTO");
+                            arch=argumento;
+                            salida_comando.append("\n"+cmd.cambio(argumento));
+                        } else if (comando.equalsIgnoreCase("wr")) {
+                            salida_comando.append("\n"+cmd.Escribir(arch,argumento));
+                        } else if (comando.equalsIgnoreCase("rd")) {
+                            salida_comando.append("\n"+cmd.Leer(argumento));
+                        } else if (text.equalsIgnoreCase("...")) {
+                            arch=argumento;
+                            salida_comando.append("\n" + cmd.regreso());
+                        } else if (text.equalsIgnoreCase("dir")) {
+                            salida_comando.append("\n" + cmd.listar());
+                        } else if (text.equalsIgnoreCase("date")) {
+                            salida_comando.append("\n" + cmd.fecha());
+                        } else if (text.equalsIgnoreCase("time")) {
+                            salida_comando.append("\n" + cmd.Time());
+                        } else {
+                            salida_comando.append(text + "\nCOMANDO NO APTO");
                         }
-
                     }
                 }
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
             }
         });
-    } 
+    }
+
     private String obtenerUltimaLinea() {
         String txtEnFrame=salida_comando.getText();
         String[] salto=txtEnFrame.split("\n");
@@ -76,6 +82,8 @@ private Calendar fecha;
             return "";
         }
     }
+
+
 
 
     @SuppressWarnings("unchecked")
