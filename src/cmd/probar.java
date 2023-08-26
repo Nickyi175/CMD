@@ -21,10 +21,13 @@ public class probar {
         try{
 //            direccion=lea.nextLine()
 String dir="ok1";
-String arch="us.txt";
+String arch="us1.txt";
             obj.Mkdir(dir);
             obj.Mfile(arch);
-            obj.Escribir(dir, arch,"mimamamemima");
+            obj.Escribir( arch,"mimamamemimaS");
+            String contenido = obj.Leer(arch);
+            System.out.println("Contenido del archivo:");
+            System.out.println(contenido);
         }catch(InputMismatchException e){
             System.out.println("no valido");
         }catch(NullPointerException e){

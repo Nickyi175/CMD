@@ -18,103 +18,59 @@ public class CMD {
     Scanner leer = new Scanner(System.in);
     File files;
     String direccion="";
-    
-    
- public String Escribir(String carpeta, String nombreArchivo, String comando) {
-        File archivo = new File(carpeta, nombreArchivo);
+    private File dirAct;
 
-        if (!archivo.getParentFile().exists()) {
-            archivo.getParentFile().mkdirs();
-        }
+    public CMD() {
+        dirAct=new File(System.getProperty("user.dir"));
+    }
+    
+    public String Escribir(String nombreArchivo, String txt) {
+        File enArchivo=new File(dirAct, nombreArchivo);
+        FileWriter escribir=null;
+        try {
+            escribir=new FileWriter(enArchivo);
+            escribir.write(txt);
+            return "TEXTO AÑADIDO";
+        } catch (IOException e) {
+            return "NO SE PUDO ESCRIBIR EN EL ARCHIVO";
+        } finally {
+            if (escribir!=null) {
+                try {
+                    escribir.close();
+                } catch (IOException e) {
+                    return "ERROR";
+                }
+            }
+        }    
+    }
+    public String Leer(String nameArchivo) {
+        File archivo = new File(dirAct, nameArchivo);
+        BufferedReader lee = null;
+        StringBuilder contenido = new StringBuilder();
 
         try {
-            FileWriter escribir = new FileWriter(archivo);
-            escribir.write(comando);
-            escribir.flush();
-            escribir.close();
-            return "¡Completado! El texto ha sido escrito en el archivo.";
-        } catch (IOException e) {
-            return "No se pudo escribir en el archivo.";
-        }
-    }
- 
-//    public String Escribir(String direccion,String texto,String comando){
-//        String text="NO APTO";
-//            if(comando != null && !comando.isEmpty()){//direccion es mkdir
-//                String ruta=System.getProperty("user.dir")+File.separator+comando;
-//                File nf=new File(ruta);
-//                comando=comando.toLowerCase();
-//            if(comando.contains("wr")){
-//                String direction;
-//                String palabraABorrar = "wr";
-//                direction = comando.replace(palabraABorrar, "");
-//            if (files.exists()) {
-//                if (files.isFile()) {
-//                    try {
-//                        FileWriter escriba = new FileWriter(files);
-//                        escriba.write(texto);
-//                        escriba.flush();
-//                        text = "¡Completado!";
-//                    } catch (IOException e) {
-//                     text="No se creo";
-//                    }   
-//                } else {
-//                    text = "Archivo no seleccionado";
-//                    return text;
-//                }
-//            } else {
-//                text = "No existe el archivo";
-//            }
-//            return text;
-//            }
-//            return text;
-//            }
-//            return "HI";
-//    }
-    public String Leer(String direccion,String comando) {
-        comando=comando.toLowerCase();
-        if(comando.contains("rd")){
-         String direction;
-         String palabraABorrar = "rd";
-         direction = comando.replace(palabraABorrar, "");
-        File files =new File(direction);
-        String texto = "";
-        if (files.exists()) {
-            if (files.isFile()) {
-                try {
-                    FileReader lea = new FileReader(files);
-                    String contenido = "";
-                    for (int i = lea.read(); i != -1; i = lea.read()) {
-                        contenido += (char) i;
-                    }
-                    return contenido;
-                    
-                } catch (IOException e) {
-                    texto="Error";
-                }
-                texto = "¡Completado!";
-                return texto;
-            } else {
-                texto = "Ningún archivo fue seleccionado";
-                return texto;
+            lee= new BufferedReader(new FileReader(archivo));
+            String linea;
+            while ((linea=lee.readLine()) != null) {
+                contenido.append(linea).append("\n");
             }
-        } else {
-            texto = "No existe el archivo";
-            return texto;
+        } catch (IOException e) {
+            return "ERROR AL LEER ARCHIVO";
+        } finally {
+            if (lee!=null) {
+                try {
+                    lee.close();
+                } catch (IOException e) {
+                    return "ERROR";
+                }
+            }
         }
-    }
-        return null;
+        return contenido.toString();
     }
 
-    static void Time(String comando) {
-        comando = comando.toLowerCase();
-        
-        if(comando.contains("Time")){
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        System.out.println("Current time: " + timeFormat.format(new Date()));
-        } else{
-          System.out.println("Funcion no valida");  
-        }             
+    public String Time() {
+        SimpleDateFormat tF=new SimpleDateFormat("HH:mm:ss");
+        return "HORA ACTUAL: "+tF.format(new Date());
     }
 
     boolean Mkdir(String comando) {
@@ -122,36 +78,29 @@ public class CMD {
             String ruta=System.getProperty("user.dir")+File.separator+comando;
             File nf=new File(ruta);
             if(nf.mkdir()){
-                System.out.println("SE CREO CARPETA");
                 return true;
-            }else{
-                System.out.println("NO SE PUDO CREAR");
             }
-        }else{
-            System.out.println("Funcion no valida");
         }  
-
         return false;
     }
     
-    
-    void cambio(String nombreCarpeta) {
-        File nuevoD = new File(files, nombreCarpeta);
-        if (nuevoD.isDirectory()) {
-            files = nuevoD;
-            System.out.println("CAMBIO: " + files.getAbsolutePath());
+    String cambio(String nameCarpeta) {
+        File nuevoCarp = new File(dirAct, nameCarpeta);
+        if (nuevoCarp.isDirectory()) {
+            dirAct=nuevoCarp;
+            return "CAMBIO: "+dirAct.getAbsolutePath();
         } else {
-            System.out.println("CARPETA NO ENCONTRADA.");
+            return "CARPETA NO ENCONTRADA.";
         }
     }
    
-    private void regreso(String folderName) {
-        String parentPath=files.getParent();
+    private String regreso(String folderName) {
+        String parentPath=dirAct.getParent();
         if (parentPath != null) {
-            files = new File(parentPath);
-            System.out.println("REGRESANDO: " + files.getAbsolutePath());
+            dirAct=new File(parentPath);
+            return "REGRESANDO: " + dirAct.getAbsolutePath();
         } else {
-            System.out.println("ESTAS EN LA RAIZ");
+            return "ESTAS EN LA RAIZ";
         }
 //         File volver = new File(files, folderName);
 //        if (volver.isDirectory()) {
@@ -163,49 +112,71 @@ public class CMD {
     }
 
     private void listar() {
-        if(files.isDirectory()){
-            for (File c: files.listFiles()) {
-                System.out.print(new Date(c.lastModified()));
-                if(c.isDirectory()){
-                    System.out.print("\t<DIR>\t");
+        File[] lista = dirAct.listFiles();
+        if (lista != null) {
+            for (File a: lista) {//a es archivo
+                String tipo;
+                String bytes="";
+                String nombre;
+                if(a.isDirectory()){
+                    tipo="<DIR>";
+                }else{
+                    tipo="     ";
                 }
-                if(c.isFile()){
-                    System.out.print("\t     \t\n"+c.length());
+                if(a.isFile()){
+                    bytes=String.valueOf(a.length());
                 }
-                System.out.println("."+c.getName());
+                nombre=a.getName();
+                String fechaMod=new Date(a.lastModified()).toString();
+
+                System.out.print(fechaMod+"\t"+tipo+"  "+bytes+"  "+nombre);
             }
-        }else{
-            System.out.println("COMANDO NO APTO");
+        } else {
+            System.out.println("NO SE LISTA");
         }
-        System.out.println("NO SALE"+files.getAbsolutePath());
+      
+//        if(files.isDirectory()){
+//            for (File c: files.listFiles()) {
+//                System.out.print(new Date(c.lastModified()));
+//                if(c.isDirectory()){
+//                    System.out.print("\t<DIR>\t");
+//                }
+//                if(c.isFile()){
+//                    System.out.print("\t     \t\n"+c.length());
+//                }
+//                System.out.println("."+c.getName());
+//            }
+//        }else{
+//            System.out.println("COMANDO NO APTO");
+//        }
+        System.out.println("NO SALE");
     }
-    boolean Rm(String comando) {
-
-        comando = comando.toLowerCase();
-        String resultado;
-        if (comando.contains("rm")) {
-            String palabraABorrar = "rm";
-            resultado = comando.replace(palabraABorrar, "");
-            files = new File(resultado);
-            if (files.exists()) {
-                    eliminarcarp(files);
-                    rmborrar(files);
-                System.out.println(""+files);
-                System.out.println(""+resultado);
-            } else {
-
-                System.out.println("no existe!");
+    String Rm(String eliminar) {
+        File archDel=new File(dirAct,eliminar);
+        if(archDel.exists()){
+            if(archDel.isDirectory()){
+                eliminar(archDel);
+                return "CARPETA ELIMINADA";
+            }else{
+                archDel.delete();
+                return "ARCHIVO ELIMINADO";
             }
-
-            return true;
         }
-        return false;
+        return "ERROR";
+    }
+    private void eliminar(File carp){
+        
     }
     boolean Mfile(String nameArch) throws IOException {
        // comando = comando.toLowerCase();
-        String resultado;
-         files = new File(nameArch);
-        return files.createNewFile();
+        File namArch=new File(dirAct,nameArch);
+        try{
+            return namArch.createNewFile();
+        }catch(IOException e){
+            return false;
+        }
+//         files = new File(nameArch);
+//        return files.createNewFile();
 //        if (comando.contains("mfile") && comando.contains(".txt")) {
 //
 //            String palabraABorrar = "mfile";
@@ -233,27 +204,28 @@ public class CMD {
 
     }
 
-    String rmborrar(File borrar) {
+    String rmborrar(File borrar) {//preuba2
         if (borrar.isDirectory()) {
             for (File eliminar : borrar.listFiles()) {
                 if (eliminar.isDirectory()) {
-                    eliminarcarp(eliminar);
-                    eliminar.delete();
+                    rmborrar(eliminar);
                 } else {
                     eliminar.delete();
                 }
             }
-            borrar.delete();
+            borrar.delete(); 
             return "Carpeta Eliminada";
-        }else if(borrar.isFile()){
+        } else if (borrar.isFile()) {
             borrar.delete();
             return "Archivo eliminado";
         }
 
         return "Error";
     }
-    private void fecha() {
+
+    public String fecha() {
         Date dt = new Date();
-        System.out.println("FECHA ACTUAL:\t" + dt);
+        SimpleDateFormat df=new SimpleDateFormat("MM/dd/yyyy");
+        return "FECHA ACTUAL:\t"+df.format(dt);
     }
 }

@@ -28,24 +28,37 @@ private Calendar fecha;
                     System.out.println("Linea ultima:" + text);
                     String[] txtPartes = text.split(" ");
                     if (txtPartes.length >= 2) {
-                        String comando = txtPartes[0].toLowerCase();
+                        String comando = txtPartes[0];
                         String argumento = txtPartes[1];
 
-                        if (comando.equals("mkdir")) { 
-                            cmd.Mkdir(argumento);
-                        } else if (comando.equals("rd")) {
-                            // Lógica para leer
-                        } else if (comando.equals("time")) {
+                        if (comando.equalsIgnoreCase("mkdir")) { 
+                            if(cmd.Mkdir(argumento)){
+                                salida_comando.append(text+"\nCARPETA CREADA");
+                            }else{
+                                salida_comando.append(text+"\nCARPETA EXISTENTE");
+                            }
+                        } else if (comando.equalsIgnoreCase("mfile")) {
                             
-                        } else if (comando.equals("cd")) {
-                            // Lógica para cambiar de directorio
-                        }else if(comando.equals("rm")){
+                        } else if (comando.equalsIgnoreCase("rm")) {
                             
+                        } else if (comando.equalsIgnoreCase("cd")) {
+
+                        }else if(comando.equalsIgnoreCase("...")){
                             
-                        }else if(comando.equals("Mfile")){
-                           
+                        }else if(comando.equalsIgnoreCase("dir")){
                             
+                        }else if(comando.equalsIgnoreCase("date")){
+                            
+                        }else if(comando.equalsIgnoreCase("time")){
+                            
+                        }else if(comando.equalsIgnoreCase("wr")){
+                            
+                        }else if(comando.equalsIgnoreCase("rd")){
+                            
+                        }else{
+                                salida_comando.append(text+"\nCOMANDO NO APTO");
                         }
+
                     }
                 }
             }
@@ -63,10 +76,7 @@ private Calendar fecha;
             return "";
         }
     }
-//    private String arch(){
-//        String comando;
-//            return call.Mkdir(comando);
-//    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
